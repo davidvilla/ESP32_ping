@@ -136,7 +136,7 @@ static err_t ping_send(int s, ip4_addr_t *addr, int size) {
 
 	to.sin_len = sizeof(to);
 	to.sin_family = AF_INET;
-	inet_addr_from_ipaddr(&to.sin_addr, addr);
+	inet_addr_from_ip4addr(&to.sin_addr, addr);
 
 	if ((err = sendto(s, iecho, ping_size, 0, (struct sockaddr*)&to, sizeof(to)))) {
 		transmitted++;
@@ -169,7 +169,7 @@ static void ping_recv(int s) {
 
 			/// Get from IP address
 			ip4_addr_t fromaddr;
-			inet_addr_to_ipaddr(&fromaddr, &from.sin_addr);
+			inet_addr_to_ip4addr(&fromaddr, &from.sin_addr);
 
 			strcpy(ipa, inet_ntoa(fromaddr));
 
@@ -246,7 +246,7 @@ void ping(const char *name, int count, int interval, int size, int timeout) {
 	ping_start(adr, count, interval, size, timeout);
 }
 bool ping_start(struct ping_option *ping_o) {
-	
+
 
 	return ping_start(ping_o->ip,ping_o->count,0,0,0);
 
@@ -280,8 +280,8 @@ bool ping_start(IPAddress adr, int count=0, int interval=0, int size=0, int time
 	}
 
 
-	address.sin_addr.s_addr = adr; 
-	ping_target.addr = address.sin_addr.s_addr; 
+	address.sin_addr.s_addr = adr;
+	ping_target.addr = address.sin_addr.s_addr;
 
 	// Setup socket
 	struct timeval tout;
